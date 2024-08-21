@@ -22,7 +22,7 @@ locals {
 
 // Keep labels, tags consistent
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=master"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=main"
 
   namespace   = var.namespace
   stage       = var.environment
