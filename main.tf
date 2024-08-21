@@ -152,7 +152,7 @@ EOF
 }
 
 locals {
-  user_data = templatefile("${path.module}/user_data.sh"", {
+  user_data = templatefile("${path.module}/user_data.sh", {
     mc_root        = var.mc_root
     mc_bucket      = local.bucket
     mc_backup_freq = var.mc_backup_freq
