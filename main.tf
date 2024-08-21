@@ -151,11 +151,8 @@ resource "aws_iam_role_policy" "mc_allow_ec2_to_s3" {
 EOF
 }
 
-// Script to configure the server - this is where most of the magic occurs!
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.sh")
-
-  vars = {
+locals {
+  user_data = templatefile("${path.module}/user_data.sh"", {
     mc_root        = var.mc_root
     mc_bucket      = local.bucket
     mc_backup_freq = var.mc_backup_freq
@@ -163,7 +160,7 @@ data "template_file" "user_data" {
     mc_type        = var.mc_type   
     java_mx_mem    = var.java_mx_mem
     java_ms_mem    = var.java_ms_mem
-  }
+  })
 }
 
 // Security group for our instance - allows SSH and minecraft 
@@ -219,7 +216,7 @@ module "ec2_minecraft" {
   ami                  = var.ami != "" ? var.ami : data.aws_ami.ubuntu.image_id
   instance_type        = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.mc.id
-  user_data            = data.template_file.user_data.rendered
+  user_data            = local.user_data
 
   # network
   subnet_id                   = local.subnet_id
