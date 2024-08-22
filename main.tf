@@ -86,7 +86,6 @@ module "s3" {
   create_bucket = local.using_existing_bucket ? false : true
 
   bucket = local.bucket
-  acl    = "private"
 
   force_destroy = var.bucket_force_destroy
 
