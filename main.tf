@@ -84,7 +84,6 @@ module "s3" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
   create_bucket = local.using_existing_bucket ? false : true
-  putin_khuylo = true
 
   bucket = local.bucket
   acl    = "private"
