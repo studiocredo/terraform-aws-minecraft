@@ -41,7 +41,7 @@ ubuntu_linux_setup() {
   export SSH_USER="ubuntu"
   export DEBIAN_FRONTEND=noninteractive
   /usr/bin/apt-get update
-  /usr/bin/apt-get -yq install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" default-jre wget awscli jq
+  /usr/bin/apt-get -yq install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" openjdk-21-jdk wget awscli jq
   /bin/cat <<"__UPG__" > /etc/apt/apt.conf.d/10periodic
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
@@ -55,7 +55,7 @@ __UPG__
 # Short-Description: Minecraft server
 
 start() {
-  echo "Starting minecraft server from /home/minecraft..."
+  echo "Starting minecraft server from ${mc_root}..."
   start-stop-daemon --start --quiet  --pidfile ${mc_root}/minecraft.pid -m -b -c $SSH_USER -d ${mc_root} --exec /usr/bin/java -- -Xmx${java_mx_mem} -Xms${java_ms_mem} -jar $MINECRAFT_JAR nogui
 }
 
@@ -89,7 +89,7 @@ INIT
 # Update OS and install start script
 amazon_linux_setup() {
     export SSH_USER="ec2-user"
-    /usr/bin/yum install java-1.8.0 yum-cron wget awscli jq -y
+    /usr/bin/yum install java-21-openjdk yum-cron wget awscli jq -y
     /bin/sed -i -e 's/update_cmd = default/update_cmd = security/'\
                 -e 's/apply_updates = no/apply_updates = yes/'\
                 -e 's/emit_via = stdio/emit_via = email/' /etc/yum/yum-cron.conf
