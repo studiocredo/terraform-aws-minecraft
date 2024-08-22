@@ -157,7 +157,9 @@ esac
 
 # Create mc dir, sync S3 to it and download mc if not already there (from S3)
 /bin/mkdir -p ${mc_root}
+chown "$SSH_USER" ${mc_root}
 /usr/bin/aws s3 sync s3://${mc_bucket} ${mc_root}
+chown -R "$SSH_USER" ${mc_root}
 
 # Download server if it doesn't exist on S3 already (existing from previous install)
 # To force a new server version, remove the server JAR from S3 bucket
