@@ -175,13 +175,13 @@ module "ec2_security_group" {
 
   ingress_cidr_blocks      = [ var.allowed_admin_cidr ]
   ingress_rules            = [ "ssh-tcp"]
-  ingress_with_cidr_blocks = [
+  ingress_with_cidr_blocks = [ for allowed_cidr in var.allowed_cidrs:
     {
       from_port   = var.mc_port
       to_port     = var.mc_port
       protocol    = "tcp"
       description = "Minecraft server"
-      cidr_blocks = var.allowed_cidrs
+      cidr_blocks = allowed_cidr
     }
   ]
   egress_rules = ["all-all"]
