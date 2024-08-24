@@ -123,9 +123,15 @@ variable "instance_type" {
   default     = "t2.medium"
 }
 
-variable "allowed_cidrs" {
-  description = "Allow these CIDR blocks to the server - default is the Universe"
+variable "allowed_admin_cidr" {
+  description = "Allow these CIDR blocks to SSH into the server - default is the Universe"
   type        = string
   default     = "0.0.0.0/0"
+}
+
+variable "allowed_cidrs" {
+  description = "Allow these CIDR blocks to the server - default is the Universe"
+  type        = list(string)
+  default     = [ "0.0.0.0/0" ]
 }
 
